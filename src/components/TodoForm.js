@@ -1,30 +1,51 @@
+import React from 'react';
 import {useState} from "react";
 import Todo from './Todo'
-import {logDOM} from "@testing-library/react";
+const { uuid } = require('uuidv4');
+
+
+
 function TodoForm() {
 
+
   let [inputValue, setInputValue] = useState('');
-  let [todoList, setTodoList] = useState([]);
+  let [todoList, setTodoList] = useState(
+    [
+      {
+        id: uuid(),
+        text: 'Test 1',
+        completed: false
+      },
+      {
+        id: uuid(),
+        text: 'Test 2',
+        completed: false
+      }
+    ]);
 
 
-  const addTodo = (e) => {
+
+  const addTodo = (e, todo) => {
     e.preventDefault();
-    setTodoList([...todoList,inputValue]);
-    setInputValue('');
+    if(todo.length > 1) {
+      setTodoList([...todoList, {id: uuid(),text: todo, completed: false}]);
+      setInputValue('');
+    }
   }
 
-  const checkTodo = (e,index) => {
-    let completed = todoList.filter((el,id) => {
-      return id !== index;
+  const completedTodo = (el) => {
+    el.completed = true;
+    setTodoList(prevTodoList => {
+      const newTodoList = prevTodoList.filter(todo => todo.id !== el.id);
+      return [...newTodoList, el];
     });
-
-    setTodoList(completed);
   }
+
+
 
   return (
-    <div className="form my-auto">
-      <Todo todoList={todoList} checkTodo={checkTodo} />
-      <form onSubmit={(e) => addTodo(e)}>
+    <div className="form mt-10">
+      <form onSubmit={(e) => addTodo(e, inputValue)}>
         <input
           className="border-2 border-black p-2 w-full"
           type="text"
@@ -33,11 +54,10 @@ function TodoForm() {
           onChange={(e) => setInputValue(e.target.value)}
         />
       </form>
+      <Todo todoList={todoList} completedTodo={completedTodo}/>
     </div>
   )
 }
-
-
 
 
 export default TodoForm

@@ -1,14 +1,13 @@
-function Todo({todoList, checkTodo}) {
+import React from 'react';
+import { AiOutlineCheck } from 'react-icons/ai';
+function Todo({todoList, completedTodo}) {
   return (
     <div>
       {
-        todoList.map((todo, index) => {
-          return <div key={index} className="bg-sky-100 mb-2 p-2 border-2 border-black">
-            <span onChange={(e) => checkTodo(e,index)}
-                  className="mr-2">
-              <input type="checkbox"/>
-            </span>
-            <span className="todo">{todo}</span>
+        todoList.map((el) => {
+          return <div key={el.id} className="flex justify-between items-center bg-sky-50 p-2 my-2 border-2 border-sky-600">
+            <span className={`todo-item ${el.completed ? 'line-through' : ''}`}>{el.text}</span>
+            <span className="icona cursor-pointer" onClick={() => completedTodo(el)}><AiOutlineCheck/></span>
           </div>
         })
       }

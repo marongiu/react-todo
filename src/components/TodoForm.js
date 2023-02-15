@@ -1,8 +1,8 @@
 import React from 'react';
 import {useState} from "react";
 import Todo from './Todo'
-const { uuid } = require('uuidv4');
 
+const {uuid} = require('uuidv4');
 
 
 function TodoForm() {
@@ -24,11 +24,10 @@ function TodoForm() {
     ]);
 
 
-
   const addTodo = (e, todo) => {
     e.preventDefault();
-    if(todo.length > 1) {
-      setTodoList([...todoList, {id: uuid(),text: todo, completed: false}]);
+    if (todo.length > 1) {
+      setTodoList([...todoList, {id: uuid(), text: todo, completed: false}]);
       setInputValue('');
     }
   }
@@ -41,6 +40,15 @@ function TodoForm() {
     });
   }
 
+  const deleteTodo = (el) => {
+
+    setTodoList(prevTodoList => {
+      const newTodoList = prevTodoList.filter(todo => todo.id !== el.id);
+      return newTodoList;
+    });
+
+
+  }
 
 
   return (
@@ -54,7 +62,11 @@ function TodoForm() {
           onChange={(e) => setInputValue(e.target.value)}
         />
       </form>
-      <Todo todoList={todoList} completedTodo={completedTodo}/>
+      <Todo
+        todoList={todoList}
+        completedTodo={completedTodo}
+        deleteTodo={deleteTodo}
+      />
     </div>
   )
 }

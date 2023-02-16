@@ -21,8 +21,7 @@ function TodoPage() {
     ]);
 
 
-  const addTodo = (e, todo) => {
-    e.preventDefault();
+  const addTodo = (todo) => {
     if (todo.length > 1) {
       setTodoList([...todoList, {id: uuid(), text: todo, completed: false}]);
       setInputValue('');

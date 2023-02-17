@@ -37,7 +37,6 @@ function TodoPage() {
   }
 
   const deleteTodo = (el) => {
-
     setTodoList(prevTodoList => {
       const newTodoList = prevTodoList.filter(todo => todo.id !== el.id);
       return newTodoList;
